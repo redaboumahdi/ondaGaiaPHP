@@ -26,9 +26,6 @@ $e1=new NUM();
 $e1->number="$myID";
 echo json_encode($e1);
 
-$e2=new NUM();
-$e2->number=$count;
-echo json_encode($e2);
 
 for ($i = 0; $i < $count; $i++) {
 	$val=$set[$i]['idR'];
@@ -39,6 +36,7 @@ for ($i = 0; $i < $count; $i++) {
 	$row2=$req2->fetch_assoc();
 	$e3->first_name=$row2['first_name'];
 	$e3->last_name=$row2['last_name'];
+	echo ";;;";
 	echo json_encode($e3);
 }
 
