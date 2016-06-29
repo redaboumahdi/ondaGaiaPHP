@@ -11,6 +11,7 @@ class picture {
 	public $status="";
 	public $url="";
 	public $orientation="";
+	public $radius="";
 	public $lat="";
 	public $lon="";
 }
@@ -19,7 +20,7 @@ class NUM {
         public $number = "";
 }
 
-$req=mysqli_query($con,"SELECT num,idS,status,url,orientation,lat,lon FROM pictures WHERE idR='$myID'");
+$req=mysqli_query($con,"SELECT num,idS,status,url,orientation,radius,lat,lon FROM pictures WHERE idR='$myID'");
 for ($set = array (); $row = $req->fetch_assoc(); $set[] = $row);
 $count = count($set);
 
@@ -27,9 +28,6 @@ $e1=new NUM();
 $e1->number=$myID;
 echo json_encode($e1);
 
-$e2=new NUM();
-$e2->number=$count;
-echo json_encode($e2);
 
 for ($i = 0; $i < $count; $i++) {
 	$validS=$set[$i]['idS'];
@@ -40,6 +38,7 @@ for ($i = 0; $i < $count; $i++) {
 		$valstatus=$set[$i]['status'];
 		$valurl=$set[$i]['url'];
 		$valorientation=$set[$i]['orientation'];
+		$valradius=$set[$i]['radius'];
 		$vallat=$set[$i]['lat'];
 		$vallon=$set[$i]['lon'];
 		$e3=new picture();
@@ -53,11 +52,14 @@ for ($i = 0; $i < $count; $i++) {
 		$e3->status = $valstatus;
 		$e3->url = $valurl;
 		$e3->orientation=$valorientation;
+		$e3->radius=$valradius;
 		$e3->lat = $vallat;
 		$e3->lon = $vallon;
+		echo ";;;";
 		echo json_encode($e3);
 	}
 }
+
 
 mysql_close();
 
