@@ -1,14 +1,11 @@
 <?php
-$username = 'root';
-$password = 'root';
-$host     = 'localhost';
-$database = 'ondagaia';
 
-$con=mysqli_connect($host,$username,$password,$database);
+require 'conn.php';
+
 $myID = $_POST['myID'];
 
 class friend {
-        public $numR = "";
+        public $idR = "";
 	public $first_name = "";
 	public $last_name = "";
 }
@@ -17,28 +14,28 @@ class NUM {
         public $number = "";
 }
 
-$req=mysqli_query($con,"SELECT numR FROM listcontact WHERE numS='$myID' AND statusS='waiting'");
+$req=mysqli_query($con,"SELECT idR FROM contacts WHERE idS='$myID' AND statusS='waiting'");
 for ($set = array (); $row = $req->fetch_assoc(); $set[] = $row);
 $count = count($set);
 
-$eee=new NUM();
-$eee->number="$myID";
-echo json_encode($eee);
+$e1=new NUM();
+$e1->number="$myID";
+echo json_encode($e1);
 
-$ee=new NUM();
-$ee->number=$count;
-echo json_encode($ee);
+$e2=new NUM();
+$e2->number=$count;
+echo json_encode($e2);
 
 for ($i = 0; $i < $count; $i++) {
-	$val=$set[$i]['numR'];
-	$e=new friend();
-	$e->numR = $val;
-	$sql2="SELECT num,first_name,last_name FROM test WHERE num='$val'";
+	$val=$set[$i]['idR'];
+	$e3=new friend();
+	$e3->idR = $val;
+	$sql2="SELECT first_name,last_name FROM users WHERE id='$val'";
 	$req2=mysqli_query($con,$sql2);
 	$row2=$req2->fetch_assoc();
-	$e->first_name=$row2['first_name'];
-	$e->last_name=$row2['last_name'];
-	echo json_encode($e);
+	$e3->first_name=$row2['first_name'];
+	$e3->last_name=$row2['last_name'];
+	echo json_encode($e3);
 }
 
 mysql_close();

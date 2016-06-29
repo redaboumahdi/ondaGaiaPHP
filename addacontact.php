@@ -1,37 +1,32 @@
 <?php
-$username = 'root';
-$password = 'root';
-$host     = 'localhost';
-$database = 'ondagaia';
 
-$con=mysqli_connect($host,$username,$password,$database);
+require 'conn.php';
 
-
-$numS = $_POST['numS'];
-$IDReceiver = $_POST['idR'];
+$idS = $_POST['idS'];
+$pseudoR = $_POST['pseudoR'];
 $waiting = 'waiting';
 $accepted= 'accepted';
 
-$sql1="SELECT num FROM test WHERE id='$IDReceiver'";
+$sql1="SELECT id FROM users WHERE pseudo='$pseudoR'";
 $req1=mysqli_query($con,$sql1);
 $row = $req1->fetch_assoc();
-$numR=$row['num'];
-echo $numR;
-$sql2="SELECT numS,numR FROM listcontact WHERE numS='$numS' AND numR='$numR'";
+$idR=$row['id'];
+
+$sql2="SELECT idS,idR FROM contacts WHERE idS='$idS' AND idR='$idR'";
 $req2=mysqli_query($con,$sql2);
 
 if(mysqli_num_rows($req2)==1) {
 	echo 'You already added this contact!';
 }
 else{
-	$sqlS="INSERT INTO listcontact (numS,numR,statusS,statusR) VALUES ('$numS','$numR','$accepted','$waiting')";
-	$sqlR="INSERT INTO listcontact (numS,numR,statusS,statusR) VALUES ('$numR','$numS','$waiting', '$accepted')";
+	$sqlS="INSERT INTO contacts (idS,idR,statusS,statusR) VALUES ('$idS','$idR','$accepted','$waiting')";
+	$sqlR="INSERT INTO contacts (idS,idR,statusS,statusR) VALUES ('$idR','$idS','$waiting', '$accepted')";
 	$reqS = mysqli_query($con,$sqlS) or die('Erreur SQL !<br>'.$sqlS.'<br>'.mysql_error()); 
 	$reqR = mysqli_query($con,$sqlR) or die('Erreur SQL !<br>'.$sqlR.'<br>'.mysql_error()); 
 }
 
 class friend {
-        public $numR = "";
+        public $idR = "";
 	public $first_name = "";
 	public $last_name = "";
 }
@@ -40,28 +35,28 @@ class NUM {
         public $number = "";
 }
 
-$req=mysqli_query($con,"SELECT numR FROM listcontact WHERE numS='$numS' AND statusS='accepted'");
+$req=mysqli_query($con,"SELECT idR FROM contacts WHERE idS='$idS' AND statusS='accepted'");
 for ($set = array (); $row = $req->fetch_assoc(); $set[] = $row);
 $count = count($set);
 
-$eee=new NUM();
-$eee->number="$numS";
-echo json_encode($eee);
+$e1=new NUM();
+$e1->number="$idS";
+echo json_encode($e1);
 
-$ee=new NUM();
-$ee->number=$count;
-echo json_encode($ee);
+$e2=new NUM();
+$e2->number=$count;
+echo json_encode($e2);
 
 for ($i = 0; $i < $count; $i++) {
-	$val=$set[$i]['numR'];
-	$e=new friend();
-	$e->numR = $val;
-	$sql3="SELECT num,first_name,last_name FROM test WHERE num='$val'";
+	$val=$set[$i]['idR'];
+	$e3=new friend();
+	$e3->idR = $val;
+	$sql3="SELECT first_name,last_name FROM users WHERE id='$val'";
 	$req3=mysqli_query($con,$sql3);
 	$row3=$req3->fetch_assoc();
-	$e->first_name=$row3['first_name'];
-	$e->last_name=$row3['last_name'];
-	echo json_encode($e);
+	$e3->first_name=$row3['first_name'];
+	$e3->last_name=$row3['last_name'];
+	echo json_encode($e3);
 }
 mysql_close();
 
