@@ -2,9 +2,12 @@
 require 'conn.php';
 
 $num = $_POST['num'];
+$date = $_POST['date'];
 
-$req1=mysqli_query($con,"UPDATE pictures SET status='accepted' WHERE num='$num'");
+$req=mysqli_query($con,"UPDATE pictures SET status='accepted',date='$date' WHERE num='$num'");
 
-mysql_close();
+echo "OK";
+
+mysqli_close();
 
 ?>

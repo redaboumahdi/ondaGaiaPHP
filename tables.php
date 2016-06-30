@@ -39,7 +39,8 @@ url VARCHAR(255) NOT NULL,
 orientation VARCHAR(255) NOT NULL,
 radius VARCHAR(255) NOT NULL,
 lat FLOAT UNSIGNED,
-lon FLOAT UNSIGNED
+lon FLOAT UNSIGNED,
+date VARCHAR(255) NOT NULL
 )";
 
 if ($con->query($sql3) === TRUE) {
