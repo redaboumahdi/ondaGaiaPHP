@@ -24,9 +24,6 @@ $req=mysqli_query($con,"SELECT num,idS,status,url,orientation,radius,lat,lon FRO
 for ($set = array (); $row = $req->fetch_assoc(); $set[] = $row);
 $count = count($set);
 
-$e1=new NUM();
-$e1->number=$myID;
-echo json_encode($e1);
 
 
 for ($i = 0; $i < $count; $i++) {
@@ -55,8 +52,8 @@ for ($i = 0; $i < $count; $i++) {
 		$e3->radius=$valradius;
 		$e3->lat = $vallat;
 		$e3->lon = $vallon;
-		echo ";;;";
 		echo json_encode($e3);
+		echo ";;;";
 	}
 }
 
